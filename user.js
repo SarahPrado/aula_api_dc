@@ -12,3 +12,5 @@ fetch("https://jsonplaceholder.typicode.com/users")
         console.log(`${item.id} - ${item.name.toUpperCase()}, ${item.username.toLowerCase()}`);
         })
   })
+
+  //Boa sorte amada
