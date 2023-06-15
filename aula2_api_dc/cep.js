@@ -4,7 +4,7 @@
 
 //Preenchendo o select estados com API IBGE
 const findStates = () => {
-    fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados")
+    fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados`)
     .then(response => response.json())
     .then(json => {
         let inputEstado = document.getElementById('estado')
@@ -20,11 +20,11 @@ const findStates = () => {
         //Ordenar o Array
         
         json.forEach(estado => 
-            // console.log(estado)
+            //console.log(estado)
             //foi tirado a chave, para dar retorno direto, com as chaves teria que ter return antes de "estado" na expressao abaixo.
             estados += ` <option value = ${estado.sigla}> ${estado.nome}</option>`
         );
-        console.log(estados)
+        // console.log(estados)
         inputEstado.innerHTML = estados;
     })
 }
@@ -32,10 +32,10 @@ findStates()
 
 
 //Preenchendo o select cidades com API IBGE
-const findCitys = () => {
+const findCitys = async () => {
     fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/CE/distritos`)
     .then(response => response.json())
-    .then(json => {
+    .then(async json => {
         let inputCidade = document.getElementById('cidade')
         
         let distritos = ''
@@ -46,15 +46,13 @@ const findCitys = () => {
             if (a.nome > b.nome) return 1;
         });
 
-        json.forEach(cidade => 
+        await json.forEach(cidade => 
             distritos += `<option value = ${cidade.id}> ${cidade.nome}</option>`
             );
-            console.log(distritos)
+            // console.log(distritos)
             inputCidade.innerHTML = distritos;
         })
 }
-findCitys()
-
 
 
 //Requisição da API VIA CEP e Adição de um Evento no Input
@@ -65,8 +63,6 @@ const input_complement = document.getElementById('inputComplement')
 const input_bairro = document.getElementById('inputBairro')
 
 input_cep.addEventListener('blur', () => {
-    // alert('funfou');
-
     let cep = input_cep.value;
     if(cep.length !== 8){
         alert('Digite a quantidade de número válido do CEP');
@@ -78,7 +74,13 @@ input_cep.addEventListener('blur', () => {
         .then(json => {
             input_logradouro.value = json.logradouro;
             input_complement.value = json.complemento;
-            input_bairro.value = json.bairro;    
+            input_bairro.value = json.bairro; 
 
-        });    
+            estado.value = json.uf;
+            findCitys();
+            cidade.value = json.localidade;
+            
+        });
+        
+        input_number.focus();
 })
