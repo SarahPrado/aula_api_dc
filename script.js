@@ -1,5 +1,5 @@
 /*
-Se não declarar o GET ou qualquer outra função, por debaixo dos panos o fetcch funciona como um GET
+Se não declarar o GET ou qualquer outra função, por debaixo dos panos o fetch funciona como um GET
 tipo de dado vejm em array (json)
 */
 
@@ -9,7 +9,7 @@ fetch("https://jsonplaceholder.typicode.com/posts")
     .then(json => {
     console.log(`Quantidade de itens: ${json.length}`);
     
-    //Digitar foreach para buscar os titulos
+    //Digitar forEach para buscar os titulos
     //O foreach passa por elementos em um array, sendo um laço de repetição
     json.forEach(element => {
     console.log(`Título: ${element.title}`);
